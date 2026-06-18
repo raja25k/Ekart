@@ -27,14 +27,14 @@ pipeline {
                     buildResult: 'SUCCESS', 
                     stageResult: 'UNSTABLE'
                 ) {
-                    timeout(time: 10, unit: 'MINUTES') {dependencyCheck(
+                   dependencyCheck(
                         odcInstallation: 'OWASP-dc',
                         debug: true,
                         nvdCredentialsId: 'NVD-API-KEY',
                         additionalArguments: '''
                             --scan ./
                         '''
-                    )}
+                    )
                 }
             }
         }

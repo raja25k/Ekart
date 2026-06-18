@@ -37,11 +37,6 @@ pipeline {
                     )
                 }
             } */
-        stage('Compile') {
-            steps {
-                sh "mvn clean compile -DskipTests=true"
-            }
-        }
     }
     post{
         always{

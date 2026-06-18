@@ -16,7 +16,7 @@ pipeline {
         }
         stage('OWASP-DC') {
             steps {
-                dependencyCheck additionalArguments: '--scan ./ --format HTML', odcInstallation: 'OWASP-dc'
+                dependencyCheck additionalArguments: '', nvdCredentialsId: 'NVD-API-KEY', odcInstallation: 'OWASP-dc'
                 dependencyCheckPublisher()
             }
         }

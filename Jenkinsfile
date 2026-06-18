@@ -31,7 +31,7 @@ pipeline {
                         odcInstallation: 'OWASP-dc',
                         nvdCredentialsId: 'NVD-API-KEY',
                         additionalArguments: '''
-                            --scan ./
+                            --scan /scripts
                         '''
                     )
                 }

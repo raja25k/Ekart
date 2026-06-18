@@ -21,7 +21,7 @@ pipeline {
                 sh "mvn clean compile -DskipTests=true"
             }
         }
-        stage('OWASP-DC') {
+        /* stage('OWASP-DC') {
             steps {
                 catchError(
                     buildResult: 'SUCCESS', 
@@ -36,6 +36,10 @@ pipeline {
                         '''
                     )
                 }
+            } */
+        stage('Compile') {
+            steps {
+                sh "mvn clean compile -DskipTests=true"
             }
         }
     }

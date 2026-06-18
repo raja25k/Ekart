@@ -49,6 +49,15 @@ pipeline {
                  }
              }
            }
+        stage('Docker Build & Deploy') {
+             steps {
+                withDockerRegistry(credentialsId: 'docker-token') {
+                    sh "docker build -t shopping-cart -f docker/Dockerfile ."
+                    sh "docker tag shopping-cart raja53a/shopping-cart:latest"
+                    sh "docker push raja53a/shopping-cart:latest"
+                }
+             }
+           }
     }
     post{
         always{

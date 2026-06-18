@@ -58,6 +58,13 @@ pipeline {
                 }
              }
            }
+        stage('Deploy') {
+             steps {
+                withDockerRegistry(credentialsId: 'docker-token', url:'') {
+                    sh "docker run -d --name ekart-jenkins -p 8070:8070 raja53a/shopping-cart:latest"
+                }
+             }
+           }
     }
     post{
         always{

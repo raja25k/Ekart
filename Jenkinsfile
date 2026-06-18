@@ -5,10 +5,9 @@ pipeline {
     }
     tools{
         maven 'maven-360'
+        sonarScanner 'SonarScanner'
     }
-    environment{
-        SCANNER_HOME = tool 'SonarScanner'
-    }
+
     stages {
         stage('Checkout') {
             steps {

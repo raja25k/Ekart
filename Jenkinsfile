@@ -21,7 +21,7 @@ pipeline {
                 sh "mvn clean compile -DskipTests=true"
             }
         }
-        /* stage('OWASP-DC') {
+        stage('OWASP-DC') {
             steps {
                 catchError(
                     buildResult: 'SUCCESS', 
@@ -29,14 +29,15 @@ pipeline {
                 ) {
                    dependencyCheck(
                         odcInstallation: 'OWASP-dc',
-                        debug: true,
-                        nvdCredentialsId: 'NVD-API-KEY',
+                        //debug: true,
+                        //nvdCredentialsId: 'NVD-API-KEY',
                         additionalArguments: '''
                             --scan ./
                         '''
                     )
                 }
-            } */
+            } 
+        }
     }
     post{
         always{

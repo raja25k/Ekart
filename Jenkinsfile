@@ -6,6 +6,9 @@ pipeline {
     tools{
         maven 'maven-360'
     }
+    environment{
+        SCANNER_HOME = tool 'SonarScanner'
+    }
     stages {
         stage('Checkout') {
             steps {
@@ -21,7 +24,7 @@ pipeline {
                 sh "mvn clean compile -DskipTests=true"
             }
         }
-        stage('OWASP-DC') {
+        /* stage('OWASP-DC') {
             steps {
                 catchError(
                     buildResult: 'SUCCESS', 
@@ -36,7 +39,18 @@ pipeline {
                         '''
                     )
                 }
-            } 
+            }*/ 
+         stage('SonarQube Analysis') {
+             steps {
+                 withSonarQubeEnv(credentialsId: 'SonarQube-server') {
+                     '''
+                     sh $SCANNER_HOME/bin/SonarScanner -Dsonar.projectName=Ekart \
+                     -Dsonar.java.binaries=. \
+                     -Dsonar.projectKey=Ekart 
+                     '''
+                 }
+             }
+           }
         }
     }
     post{

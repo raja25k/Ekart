@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Compile') {
             steps {
-                sh "mvn clean compile -DskipTests=true"
+                sh "mvn clean package -DskipTests=true"
             }
         }
         /* stage('OWASP-DC') {

@@ -4,9 +4,13 @@ pipeline {
         maven 'maven-360'
     }
     stages {
-        stage('Github Checkout') {
+        stage('Checkout') {
             steps {
-                git branch: 'main', changelog: false, credentialsId: 'github-token', poll: false, url: 'https://github.com/raja25k/Ekart.git'
+                git (
+                    branch: 'main', 
+                    credentialsId: 'github-token',
+                    url: 'https://github.com/raja25k/Ekart.git'
+                )
             }
         }
         stage('Compile') {
@@ -16,14 +20,33 @@ pipeline {
         }
         stage('OWASP-DC') {
             steps {
-                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                catchError(
+                    buildResult: 'SUCCESS', 
+                    stageResult: 'UNSTABLE'
+                ) {
                     dependencyCheck(
                         odcInstallation: 'OWASP-dc',
                         nvdCredentialsId: 'NVD-API-KEY',
-                        additionalArguments: '--scan .'
+                        additionalArguments: '''
+                            ---scan .
+                        '''
                     )
                 }
             }
+        }
+    }
+    post{
+        always{
+            echo "Pipeline execution executed"
+        }
+        unstable{
+            echo "Build is unstable. Check OWASP Dependency Check report."
+        }
+        failure{
+            echo "Pipeline Failed"
+        }
+        success{
+            echo "Pipeline completed successfully"
         }
     }
 }

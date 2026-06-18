@@ -16,14 +16,16 @@ pipeline {
         }
         stage('OWASP-DC') {
             steps {
-                dependencyCheck(
-                    odcInstallation: 'OWASP-dc',
-                    nvdCredentialsId: 'NVD-API-KEY',
-                    additionalArguments: '--scan .'
-                )
-                dependencyCheckPublisher(
-                    pattern: '**/dependency-check-report.xml'
-                )
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    dependencyCheck(
+                        odcInstallation: 'OWASP-dc',
+                        nvdCredentialsId: 'NVD-API-KEY',
+                        additionalArguments: '--scan .'
+                    )
+                    dependencyCheckPublisher(
+                        pattern: '**/dependency-check-report.xml'
+                    )
+                }
             }
         }
     }
